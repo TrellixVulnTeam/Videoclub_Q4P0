@@ -1,19 +1,13 @@
-import pymysql
+from Conexion import*
 
-############### CONFIGURAR ESTO ###################
-# Abre conexion con la base de datos
-db = pymysql.connect("localhost","root","","videoclub")
-##################################################
+class Funcion(Conexion):
 
-# prepare a cursor object using cursor() method
-cursor = db.cursor()
+    def insertar(self, idusuario, nombre, apellido, usuario, telefono, correo, contraseña):
+        cnx = self.conectar()
+        # Creamos el cursor con el objeto conexion
+        cur = cnx.cursor()
+        # Ejecutamos una consulta
+        cur.execute("INSERT INTO registro VALUES ('"+idusuario+"', '"+nombre+"', '"+apellido+"', '"+usuario+"', '"+telefono+"', '"+correo+"', '"+contraseña+"')")
+        cnx.commit()
+        self.cerrarConexion(cnx)
 
-# ejecuta el SQL query usando el metodo execute().
-cursor.execute("SELECT VERSION()")
-
-# procesa una unica linea usando el metodo fetchone().
-data = cursor.fetchone()
-print ("Database version : {0}".format(data))
-
-# desconecta del servidor
-db.close()
